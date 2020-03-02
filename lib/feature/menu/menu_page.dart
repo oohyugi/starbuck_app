@@ -245,7 +245,7 @@ class ItemProduct extends StatelessWidget {
                   height: 50,
                 )),
       ),
-      title: Text(product.name),
+      title: Text(product.name,overflow: TextOverflow.ellipsis,maxLines: 1,),
       subtitle: Text("Rp25.000.000"),
     );
   }
