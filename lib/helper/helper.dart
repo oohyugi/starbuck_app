@@ -40,3 +40,57 @@ class OpenContainerWrapper extends StatelessWidget {
     );
   }
 }
+
+double scaleSmallDevice(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  // For tiny devices.
+  print(size);
+  if (size.height < 600) {
+    return 0.7;
+  }
+  // For normal devices.
+  return 1.0;
+}
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double blockSizeHorizontal;
+  static double blockSizeVertical;
+
+  static double _safeAreaHorizontal;
+  static double _safeAreaVertical;
+  static double safeBlockHorizontal;
+  static double safeBlockVertical;
+  static double _textScaleFactor;
+  bool allowFontScaling =true;
+  static double scaleText;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
+
+    _safeAreaHorizontal = _mediaQueryData.padding.left +
+        _mediaQueryData.padding.right;
+    _safeAreaVertical = _mediaQueryData.padding.top +
+        _mediaQueryData.padding.bottom;
+    safeBlockHorizontal = (screenWidth -
+        _safeAreaHorizontal) / 100;
+    safeBlockVertical = (screenHeight -
+        _safeAreaVertical) / 100;
+    _textScaleFactor = _mediaQueryData.textScaleFactor;
+//    scaleText = screenWidth*
+  }
+
+  num setSp(num fontSize, {bool allowFontScalingSelf}) =>
+      allowFontScalingSelf == null
+          ? (allowFontScaling
+          ? (fontSize * scaleText)
+          : ((fontSize * scaleText) / _textScaleFactor))
+          : (allowFontScalingSelf
+          ? (fontSize * scaleText)
+          : ((fontSize * scaleText) / _textScaleFactor));
+}

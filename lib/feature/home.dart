@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/widget/banner.dart';
 import 'package:starbuck_app/widget/blog.dart';
+import 'package:starbuck_app/widget/blog_test.dart';
 import 'package:starbuck_app/widget/dashboard.dart';
 import 'package:starbuck_app/widget/grid.dart';
 import 'package:starbuck_app/widget/order_now.dart';
@@ -110,9 +111,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       subtitleHeader: "",
                       items: ItemData.getExample(),
                     ),
-                    BlogView(
+                    BlogTestView(
                       titleHeader: "Starbucks Stories",
-                      items: BlogItemData.getExample(),
+                      items: BlogItemDataTest.getExample(),
                     ),
                     BlogView(
                       titleHeader: "Social Impact",

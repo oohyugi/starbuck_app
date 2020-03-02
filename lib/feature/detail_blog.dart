@@ -31,7 +31,9 @@ const String _loremIpsumParagraph =
     'vitae';
 
 class DetailBlogPage extends StatelessWidget {
-  DetailBlogPage({Key key}) : super(key: key);
+  DetailBlogPage({Key key, this.imgUrl, this.title}) : super(key: key);
+  final String imgUrl;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +44,11 @@ class DetailBlogPage extends StatelessWidget {
           Container(
             color: Colors.black38,
             height: 250,
-            child: Padding(
-              padding: const EdgeInsets.all(70.0),
-              child: Image.asset(
-                'assets/placeholder_image.png',
+            child: Image.network(
+                imgUrl,
+              fit: BoxFit.cover,
               ),
-            ),
+
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -55,7 +56,7 @@ class DetailBlogPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Title',
+                  title,
                   style: Theme.of(context).textTheme.headline.copyWith(
                     color: Colors.black54,
                     fontSize: 30.0,
