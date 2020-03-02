@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/widget/banner.dart';
 import 'package:starbuck_app/widget/blog.dart';
-import 'package:starbuck_app/widget/blog_test.dart';
 import 'package:starbuck_app/widget/dashboard.dart';
 import 'package:starbuck_app/widget/grid.dart';
 import 'package:starbuck_app/widget/order_now.dart';
@@ -99,28 +99,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   setAnimationOrderNow(value);
                   print(_scrollController.offset);
                 });
+                return true;
               },
-              child: SingleChildScrollView(
+              child: ListView(
                 controller: _scrollController,
-                child: Column(
-                  children: <Widget>[
-                    DashboardView(),
-                    BannerView(lists: BannerItemData.getExample()),
-                    GridWithHeaderView(
-                      titleHeader: "CELEBRATE THOSE EVERYDAY LITTLE MOMENTS.",
-                      subtitleHeader: "",
-                      items: ItemData.getExample(),
-                    ),
-                    BlogTestView(
-                      titleHeader: "Starbucks Stories",
-                      items: BlogItemDataTest.getExample(),
-                    ),
-                    BlogView(
-                      titleHeader: "Social Impact",
-                      items: BlogItemData.getExampleSocial(),
-                    )
-                  ],
-                ),
+                children: <Widget>[
+                  DashboardView(),
+                  BannerView(lists: BannerItemData.getExample()),
+                  GridWithHeaderView(
+                    titleHeader: "CELEBRATE THOSE EVERYDAY LITTLE MOMENTS.",
+                    subtitleHeader: "",
+                    items: ItemData.getExample(),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  BlogView(
+                    titleHeader: "Starbucks Stories",
+                    items: BlogItemData.getExample(),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  BlogView(
+                    titleHeader: "Social Impact",
+                    items: BlogItemData.getExampleSocial(),
+                  ),
+                ],
               )),
           OrderNowView(
             topPos: topPos,
@@ -147,20 +152,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void setAnimationOrderNow(ScrollUpdateNotification value) {
-    topPos = topPos - value.scrollDelta;
-    //                  marginOrdernow =topPos-value.scrollDelta;
+    if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.forward ||
+        _scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+      topPos = topPos - value.scrollDelta;
+      //                  marginOrdernow =topPos-value.scrollDelta;
 
-    if (_scrollController.offset <= 64) {
-      marginOrdernow = 32;
-      borderRadiusSizeOrderNow = 8;
-      backroundOrderNow = HexColor("#006241");
-      textColorOrderNow = Colors.white;
-    } else {
-      marginOrdernow = 0;
-      borderRadiusSizeOrderNow = 0;
-      backroundOrderNow = Colors.white;
-      textColorOrderNow = HexColor("#006241");
+      if (_scrollController.offset <= 64) {
+        marginOrdernow = 32;
+        borderRadiusSizeOrderNow = 8;
+        backroundOrderNow = HexColor("#006241");
+        textColorOrderNow = Colors.white;
+      } else {
+        marginOrdernow = 0;
+        borderRadiusSizeOrderNow = 0;
+        backroundOrderNow = Colors.white;
+        textColorOrderNow = HexColor("#006241");
+      }
 
+      print(topPos);
       //                   borderRadiusSizeOrderNow =8;
     }
   }

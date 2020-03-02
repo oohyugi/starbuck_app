@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:starbuck_app/feature/menu/menu_page.dart';
 
 import '../feature/detail.dart';
 
@@ -38,7 +39,7 @@ class OrderNowView extends StatelessWidget {
               closedElevation: backroundOrderNow == Colors.white ? 4 : 0,
               transitionType: ContainerTransitionType.fade,
               openBuilder: (context, openContainer) {
-                return DetailPage();
+                return MenuPage();
               },
               closedBuilder: (context, closeContainer) {
                 return Container(

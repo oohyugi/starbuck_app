@@ -45,6 +45,7 @@ class GridWithHeaderView extends StatelessWidget {
                         crossAxisCount: 2),
                     )),
               ),
+              SizedBox(height: 16,),
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: OutlineButton(
@@ -71,6 +72,7 @@ class GridWithHeaderView extends StatelessWidget {
       child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height/3.7,
@@ -81,7 +83,7 @@ class GridWithHeaderView extends StatelessWidget {
                   )
                 ),
 
-              SizedBox(height: 16,),
+              SizedBox(height: 12,),
               Expanded(
                 child: Text(
                   items[i].title,

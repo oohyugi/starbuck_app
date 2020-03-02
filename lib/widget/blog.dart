@@ -1,5 +1,8 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:starbuck_app/feature/detail_blog.dart';
+import 'package:starbuck_app/helper/helper.dart';
 
 class BlogView extends StatelessWidget {
   BlogView({Key key, this.titleHeader, this.items, this.onTapItem})
@@ -10,9 +13,7 @@ class BlogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Container(
+    return Container(
 
         child: Column(
           children: <Widget>[
@@ -32,9 +33,10 @@ class BlogView extends StatelessWidget {
               ),
             ),
             Container(
-                height: MediaQuery.of(context).size.height / 3.7,
+                height: MediaQuery.of(context).size.width/1.8,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
                   itemBuilder: (context, i) {
                     return BlogItemView(context, i);
                   },
@@ -43,47 +45,51 @@ class BlogView extends StatelessWidget {
                 ))
           ],
         ),
-      ),
+
     );
   }
 
   Widget BlogItemView(BuildContext context, int i) {
-    return FittedBox(
-      child: Container(
-          margin: EdgeInsets.only(right: i != items.length - 1 ? 16 : 0, top: 16),
-          child: InkWell(
-            onTap: onTapItem,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 1.6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    height: (MediaQuery.of(context).size.height / 2.5) / 2.4,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(items[i].img), fit: BoxFit.cover)),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                      child: Text(
-                        items[i].title,
-                        style: Theme.of(context).textTheme.subhead,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
+    return Container(
+      width: MediaQuery.of(context).size.width/1.8,
+      margin: EdgeInsets.only(right: i != items.length - 1 ? 16 : 0, top: 16),
+      child: OpenContainerWrapper(
+        closeContainer: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
 
-                  )
-                ],
+          children: <Widget>[
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Center(
+                  child: Image.network(
+                    items[i].img,
+                    fit: BoxFit.cover,
+                    height:  MediaQuery.of(context).size.width,
+                  ),
+                ),
               ),
             ),
-          ),
-
+            SizedBox(
+              height: 12,
+            ),
+            Text(
+              "${items[i].title}",
+              style: Theme.of(context).textTheme.subhead,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textScaleFactor: MediaQuery.of(context).textScaleFactor,
+            ),
+          ],
+        ),
+        openContainer: DetailBlogPage(
+          title: items[i].title,
+          imgUrl: items[i].img,
+        ),
+        transitionType: ContainerTransitionType.fade,
       ),
+
     );
   }
 }
@@ -96,12 +102,7 @@ class BlogItemData {
 
   static List<BlogItemData> getExample() {
     return [
-      BlogItemData(
-          title:
-          "Introducing Irish Cream Cold Brew",
-          img:
-          "https://firebasestorage.googleapis.com/v0/b/yogiutrra.appspot.com/o/ezgif.com-gif-maker.webp?alt=media&token=09c9b4aa-2c8d-46b8-8ea3-459cbd56a958"),
-      BlogItemData(
+     BlogItemData(
           title: "Starbucks introduces first new beverages of 2020",
           img:
               "https://stories.starbucks.com/uploads/2020/01/SBX2020106-Winter-Beverages-Featured-Image-300x146.jpg"),
