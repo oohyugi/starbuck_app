@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:starbuck_app/feature/store/store_page.dart';
-import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/model/coffee_mdl.dart';
 import 'package:starbuck_app/widget/custom_tab_indicator.dart';
 
@@ -26,6 +24,7 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   MenuBloc menuBloc = MenuBloc();
   List<MenuItemMdl> listProduct = List();
+  String result = "Green Pramuka";
 
   @override
   void initState() {
@@ -41,6 +40,63 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Menu",
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .title,
+                ),
+                InkWell(
+                  onTap: () async {
+                    result = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => StorePage()));
+
+                    if (result.isNotEmpty) {
+                      menuBloc.add(FetchAllMenu());
+                    }
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        result,
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.black87),
+                      ),
+                      Icon(
+                        Icons.place,
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
+                        size: 14,
+                      ),
+                      Text(
+                        "4km",
+                        style: TextStyle(
+                            fontSize: 10, color: Colors.black87),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+
+          ],
+        ),
+        centerTitle: false,
+        iconTheme: IconThemeData(color: Colors.black87),
+      ),
       body: BlocBuilder(
         bloc: menuBloc,
         builder: (context, state) {
@@ -57,7 +113,7 @@ class _MenuPageState extends State<MenuPage> {
             return errorView(errorMessage: state.errorMessage);
           }
 //        return listProduct();
-          return ProductView(listProduct: listProduct);
+          return ProductView(listProduct: listProduct, bloc: menuBloc,);
         },
       ),
     );
@@ -72,8 +128,10 @@ class _MenuPageState extends State<MenuPage> {
 
 class ProductView extends StatefulWidget {
   final List<MenuItemMdl> listProduct;
+  final MenuBloc bloc;
 
-  ProductView({Key key, @required this.listProduct}) : super(key: key);
+  ProductView({Key key, @required this.listProduct, this.bloc})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -130,58 +188,11 @@ class _ProductViewState extends State<ProductView>
       isTapTab = false;
     });
   }
-  String result ="Green Pramuka" ;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Menu",
-                  style: Theme.of(context).textTheme.title,
-                ),
-                InkWell(
-                  onTap: () async{
-                  result =   await   Navigator.push(context, MaterialPageRoute(builder: (context)=>StorePage()));
 
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        result,
-                        style: TextStyle(
-                            fontSize: 14, color: Colors.black87),
-                      ),
-                      Icon(
-                        Icons.place,
-                        color: Theme.of(context).primaryColor,
-                        size: 14,
-                      ),
-                      Text(
-                        "4km",
-                        style: TextStyle(
-                            fontSize: 10, color: Colors.black87),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-
-          ],
-        ),
-        centerTitle: false,
-        iconTheme: IconThemeData(color: Colors.black87),
-      ),
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: Column(
@@ -250,7 +261,7 @@ class ListWithHeader extends StatelessWidget {
             padding: const EdgeInsets.all(14.0),
             child: Text(
               menu.name,
-              style: Theme.of(context).textTheme.title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
           Column(
