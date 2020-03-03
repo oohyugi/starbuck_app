@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:starbuck_app/feature/store/bloc/store_bloc.dart';
 import 'package:starbuck_app/feature/store/bloc/store_event.dart';
 import 'package:starbuck_app/feature/store/bloc/store_state.dart';
-import 'package:starbuck_app/helper/pref_helper.dart';
 import 'package:starbuck_app/model/store_mdl.dart';
 
 class StorePage extends StatefulWidget {
@@ -57,24 +55,15 @@ class _StorePageState extends State<StorePage> {
               );
             }
 
-
-
             return ListView.separated(
               padding: EdgeInsets.symmetric(vertical: 16),
               separatorBuilder: (context, index) => Divider(
                 color: Colors.black12,
               ),
               itemBuilder: (context, i) {
-                address = listStores[i]
-                    .addressLines
-                    .toString()
-                    .replaceAll("[", "")
-                    .replaceAll("]", "");
-
-
                 return InkWell(
-                  onTap: (){
-                    Navigator.pop(context,listStores[i].name);
+                  onTap: () {
+                    Navigator.pop(context, listStores[i].name);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -90,10 +79,18 @@ class _StorePageState extends State<StorePage> {
                             SizedBox(
                               width: 4,
                             ),
-                            Text(listStores[i].name,style: Theme.of(context).textTheme.subhead,),
+                            Text(
+                              listStores[i].name,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .subhead,
+                            ),
                           ],
                         ),
-                        SizedBox(height: 4,),
+                        SizedBox(
+                          height: 4,
+                        ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24),
                           child: Row(
@@ -104,10 +101,20 @@ class _StorePageState extends State<StorePage> {
                               SizedBox(
                                 width: 4,
                               ),
-                              Expanded(child: Text("${listStores[i].open!=null?listStores[i].openStatusText: "24 Hours"}",style: TextStyle(color: Colors.black38,fontSize: 13),)),
+                              Expanded(
+                                  child: Text(
+                                    "${listStores[i].open != null
+                                        ? listStores[i].openStatusText
+                                        : "24 Hours"}",
+                                    style: TextStyle(
+                                        color: Colors.black38, fontSize: 13),
+                                  )),
                             ],
                           ),
-                        ),SizedBox(height: 4,),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24),
                           child: Row(
@@ -118,12 +125,16 @@ class _StorePageState extends State<StorePage> {
                               SizedBox(
                                 width: 4,
                               ),
-                              Expanded(child: Text("${listStores[i].distance}",style: TextStyle(color: Colors.black,fontSize: 13),)),
+                              Expanded(
+                                  child: Text(
+                                    "${listStores[i].distance}",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 13),
+                                  )),
                             ],
                           ),
                         ),
                       ],
-
                     ),
                   ),
                 );
@@ -134,5 +145,3 @@ class _StorePageState extends State<StorePage> {
     );
   }
 }
-
-
