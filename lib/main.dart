@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:starbuck_app/containertest.dart';
 import 'package:starbuck_app/helper/helper.dart';
-import 'package:starbuck_app/feature/home.dart';
-import 'package:starbuck_app/widget/test_responsive.dart';
-
-import 'helper/screen_utils.dart';
+import 'package:starbuck_app/main_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,7 +22,7 @@ class MyApp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ))),
-      home: HomePage(),
+      home: MainPage(),
     );
   }
 }
