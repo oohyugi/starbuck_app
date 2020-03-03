@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:starbuck_app/feature/store/store_page.dart';
+import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/model/coffee_mdl.dart';
 import 'package:starbuck_app/widget/custom_tab_indicator.dart';
 
@@ -121,13 +123,14 @@ class _ProductViewState extends State<ProductView>
     }
   }
 
+
   Future _scrollToIndex(int index) async {
     await itemScrollController.jumpTo(index: tabController.index);
     Timer(Duration(milliseconds: 600), () {
       isTapTab = false;
     });
   }
-
+  String result ="Green Pramuka" ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,34 +149,34 @@ class _ProductViewState extends State<ProductView>
                   "Menu",
                   style: Theme.of(context).textTheme.title,
                 ),
+                InkWell(
+                  onTap: () async{
+                  result =   await   Navigator.push(context, MaterialPageRoute(builder: (context)=>StorePage()));
+
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        result,
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.black87),
+                      ),
+                      Icon(
+                        Icons.place,
+                        color: Theme.of(context).primaryColor,
+                        size: 14,
+                      ),
+                      Text(
+                        "4km",
+                        style: TextStyle(
+                            fontSize: 10, color: Colors.black87),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-            InkWell(
-                onTap: () {
-//                  Navigator.push(context, MaterialPageRoute(builder: (context)=>StorePage()));
 
-                showBottomSheet(context: null, builder: null)
-
-                },
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      "Green Pramuka",
-                      style: TextStyle(
-                          fontSize: 14, color: Theme.of(context).primaryColor),
-                    ),
-                    Icon(
-                      Icons.place,
-                      color: Theme.of(context).primaryColor,
-                      size: 14,
-                    ),
-                    Text(
-                      "4km",
-                      style: TextStyle(
-                          fontSize: 10, color: Theme.of(context).primaryColor),
-                    ),
-                  ],
-                ))
           ],
         ),
         centerTitle: false,

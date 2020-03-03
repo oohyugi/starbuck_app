@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:starbuck_app/feature/store/bloc/store_bloc.dart';
 import 'package:starbuck_app/feature/store/bloc/store_event.dart';
 import 'package:starbuck_app/feature/store/bloc/store_state.dart';
+import 'package:starbuck_app/helper/pref_helper.dart';
 import 'package:starbuck_app/model/store_mdl.dart';
 
 class StorePage extends StatefulWidget {
@@ -31,35 +33,106 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: storeBloc,
-        builder: (context, state) {
-          if (state is LoadingStore) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is ResponseSuccess) {
-            listStores.addAll(state.listDataStore);
-//        return Container(child: Text(state.listDataStore[0].name),);
-          }
-          if (state is ResponseFailed) {
-            return Container(
-              child: Text(state.errorMessage),
-            );
-          }
-
-          return ListView.builder(
-            itemBuilder: (context, i) {
-              return ListTile(
-                title: Text(listStores[i].name),
-                subtitle: Text(listStores[i].open != null
-                    ? listStores[i].openStatusText
-                    : listStores[i].address.streetAddressLine1),
+    String address = "";
+    double distanceInMeter = 0;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Stores"),
+      ),
+      body: BlocBuilder(
+          bloc: storeBloc,
+          builder: (context, state) {
+            if (state is LoadingStore) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            },
-            itemCount: listStores.length,
-          );
-        });
+            }
+            if (state is ResponseSuccess) {
+              listStores.addAll(state.listDataStore);
+//        return Container(child: Text(state.listDataStore[0].name),);
+            }
+            if (state is ResponseFailed) {
+              return Container(
+                child: Text(state.errorMessage),
+              );
+            }
+
+
+
+            return ListView.separated(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black12,
+              ),
+              itemBuilder: (context, i) {
+                address = listStores[i]
+                    .addressLines
+                    .toString()
+                    .replaceAll("[", "")
+                    .replaceAll("]", "");
+
+
+                return InkWell(
+                  onTap: (){
+                    Navigator.pop(context,listStores[i].name);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.place,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(listStores[i].name,style: Theme.of(context).textTheme.subhead,),
+                          ],
+                        ),
+                        SizedBox(height: 4,),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 24),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.access_time,
+                                  size: 16, color: Colors.black38),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(child: Text("${listStores[i].open!=null?listStores[i].openStatusText: "24 Hours"}",style: TextStyle(color: Colors.black38,fontSize: 13),)),
+                            ],
+                          ),
+                        ),SizedBox(height: 4,),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 24),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.drive_eta,
+                                  size: 16, color: Colors.black38),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(child: Text("${listStores[i].distance}",style: TextStyle(color: Colors.black,fontSize: 13),)),
+                            ],
+                          ),
+                        ),
+                      ],
+
+                    ),
+                  ),
+                );
+              },
+              itemCount: listStores.length,
+            );
+          }),
+    );
   }
 }
+
+

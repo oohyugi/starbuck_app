@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:starbuck_app/feature/home.dart';
+import 'package:starbuck_app/helper/pref_helper.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -49,6 +50,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
       position = await geolocator.getLastKnownPosition(
           desiredAccuracy: LocationAccuracy.best);
+      await PrefHelper.setUserPosition(position);
     } on PlatformException {
       position = null;
     }
@@ -58,6 +60,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
 
     setState(() {
+
       _lastKnownPosition = position;
       print(
           "lastknown latitude =${position.latitude} lastknown longitude = ${position.longitude}");

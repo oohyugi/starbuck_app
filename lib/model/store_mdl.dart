@@ -6,7 +6,7 @@ class StoreMdl {
 
   static StoreMdl fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-    StoreMdl menuBean =StoreMdl();
+    StoreMdl menuBean = StoreMdl();
     menuBean.paging = PagingBean.fromMap(map['paging']);
     menuBean.stores = List()
       ..addAll((map['stores'] as List ?? []).map((o) => StoresBean.fromMap(o)));
@@ -59,6 +59,7 @@ class StoresBean {
   MopBean mop;
   List<dynamic> features;
   String slug;
+  String distance;
 
   static StoresBean fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
@@ -82,6 +83,7 @@ class StoresBean {
     storesBean.mop = MopBean.fromMap(map['mop']);
     storesBean.features = map['features'];
     storesBean.slug = map['slug'];
+    storesBean.distance = map['distance'];
     return storesBean;
   }
 
@@ -103,6 +105,7 @@ class StoresBean {
         "mop": mop,
         "features": features,
         "slug": slug,
+        "distance": distance
       };
 }
 
