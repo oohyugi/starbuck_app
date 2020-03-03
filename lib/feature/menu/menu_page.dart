@@ -1,10 +1,13 @@
 import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
+import 'package:starbuck_app/feature/store/store_page.dart';
 import 'package:starbuck_app/model/coffee_mdl.dart';
 import 'package:starbuck_app/widget/custom_tab_indicator.dart';
+
 import 'bloc/menu_bloc.dart';
 import 'bloc/menu_event.dart';
 import 'bloc/menu_state.dart';
@@ -35,24 +38,26 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: menuBloc,
-      builder: (context, state) {
-        if (state is LoadingMenu) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Scaffold(
+      body: BlocBuilder(
+        bloc: menuBloc,
+        builder: (context, state) {
+          if (state is LoadingMenu) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        if (state is ResponseSuccess) {
-          listProduct.addAll(state.listDataMenu);
-        }
-        if (state is ResponseFailed) {
-          return errorView(errorMessage: state.errorMessage);
-        }
+          if (state is ResponseSuccess) {
+            listProduct.addAll(state.listDataMenu);
+          }
+          if (state is ResponseFailed) {
+            return errorView(errorMessage: state.errorMessage);
+          }
 //        return listProduct();
-        return ProductView(listProduct: listProduct);
-      },
+          return ProductView(listProduct: listProduct);
+        },
+      ),
     );
   }
 
@@ -129,9 +134,47 @@ class _ProductViewState extends State<ProductView>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text(
-          "Menu",
-          style: TextStyle(color: Colors.black87),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Menu",
+                  style: Theme.of(context).textTheme.title,
+                ),
+              ],
+            ),
+            InkWell(
+                onTap: () {
+//                  Navigator.push(context, MaterialPageRoute(builder: (context)=>StorePage()));
+
+                showBottomSheet(context: null, builder: null)
+
+                },
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      "Green Pramuka",
+                      style: TextStyle(
+                          fontSize: 14, color: Theme.of(context).primaryColor),
+                    ),
+                    Icon(
+                      Icons.place,
+                      color: Theme.of(context).primaryColor,
+                      size: 14,
+                    ),
+                    Text(
+                      "4km",
+                      style: TextStyle(
+                          fontSize: 10, color: Theme.of(context).primaryColor),
+                    ),
+                  ],
+                ))
+          ],
         ),
         centerTitle: false,
         iconTheme: IconThemeData(color: Colors.black87),
@@ -245,7 +288,11 @@ class ItemProduct extends StatelessWidget {
                   height: 50,
                 )),
       ),
-      title: Text(product.name,overflow: TextOverflow.ellipsis,maxLines: 1,),
+      title: Text(
+        product.name,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      ),
       subtitle: Text("Rp25.000.000"),
     );
   }
