@@ -33,7 +33,7 @@ class BlogView extends StatelessWidget {
               ),
             ),
             Container(
-                height: MediaQuery.of(context).size.width/1.8,
+                height: 220,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -51,7 +51,7 @@ class BlogView extends StatelessWidget {
 
   Widget BlogItemView(BuildContext context, int i) {
     return Container(
-      width: MediaQuery.of(context).size.width/1.8,
+      width: 150,
       margin: EdgeInsets.only(right: i != items.length - 1 ? 16 : 0, top: 16),
       child: OpenContainerWrapper(
         closeContainer: Column(
@@ -111,6 +111,16 @@ class BlogItemData {
               "Starbucks holiday beverages around the world",
           img:
               "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
+      BlogItemData(
+          title:
+          "Starbucks holiday beverages around the world",
+          img:
+          "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
+      BlogItemData(
+          title:
+          "Starbucks holiday beverages around the world",
+          img:
+          "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
 
     ];
   }static List<BlogItemData> getExampleSocial() {
@@ -129,6 +139,16 @@ class BlogItemData {
               "Starbucks holiday beverages around the world",
           img:
               "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
+      BlogItemData(
+          title:
+          "Starbucks holiday beverages around the world",
+          img:
+          "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
+      BlogItemData(
+          title:
+          "Starbucks holiday beverages around the world",
+          img:
+          "https://stories.starbucks.com/uploads/2019/12/SBX20191216-HolidayBeveragesAroundTheWorld-Feature-300x146.jpg"),
 
     ];
   }

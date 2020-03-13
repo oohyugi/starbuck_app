@@ -1,85 +1,351 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-const String _loremIpsumParagraph =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod '
-    'tempor incididunt ut labore et dolore magna aliqua. Vulputate dignissim '
-    'suspendisse in est. Ut ornare lectus sit amet. Eget nunc lobortis mattis '
-    'aliquam faucibus purus in. Hendrerit gravida rutrum quisque non tellus '
-    'orci ac auctor. Mattis aliquam faucibus purus in massa. Tellus rutrum '
-    'tellus pellentesque eu tincidunt tortor. Nunc eget lorem dolor sed. Nulla '
-    'at volutpat diam ut venenatis tellus in metus. Tellus cras adipiscing enim '
-    'eu turpis. Pretium fusce id velit ut tortor. Adipiscing enim eu turpis '
-    'egestas pretium. Quis varius quam quisque id. Blandit aliquam etiam erat '
-    'velit scelerisque. In nisl nisi scelerisque eu. Semper risus in hendrerit '
-    'gravida rutrum quisque. Suspendisse in est ante in nibh mauris cursus '
-    'mattis molestie. Adipiscing elit duis tristique sollicitudin nibh sit '
-    'amet commodo nulla. Pretium viverra suspendisse potenti nullam ac tortor '
-    'vitae.\n'
-    '\n'
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod '
-    'tempor incididunt ut labore et dolore magna aliqua. Vulputate dignissim '
-    'suspendisse in est. Ut ornare lectus sit amet. Eget nunc lobortis mattis '
-    'aliquam faucibus purus in. Hendrerit gravida rutrum quisque non tellus '
-    'orci ac auctor. Mattis aliquam faucibus purus in massa. Tellus rutrum '
-    'tellus pellentesque eu tincidunt tortor. Nunc eget lorem dolor sed. Nulla '
-    'at volutpat diam ut venenatis tellus in metus. Tellus cras adipiscing enim '
-    'eu turpis. Pretium fusce id velit ut tortor. Adipiscing enim eu turpis '
-    'egestas pretium. Quis varius quam quisque id. Blandit aliquam etiam erat '
-    'velit scelerisque. In nisl nisi scelerisque eu. Semper risus in hendrerit '
-    'gravida rutrum quisque. Suspendisse in est ante in nibh mauris cursus '
-    'mattis molestie. Adipiscing elit duis tristique sollicitudin nibh sit '
-    'amet commodo nulla. Pretium viverra suspendisse potenti nullam ac tortor '
-    'vitae';
 
-class DetailPage extends StatelessWidget {
-  DetailPage({Key key}) : super(key: key);
+class OrderDetailPage extends StatefulWidget {
+  final String categoryName;
+  final String productName;
+  final String imgProduct;
+
+  OrderDetailPage(
+      {Key key, this.categoryName, this.productName, this.imgProduct})
+      : super(key: key);
+
+  @override
+  _OrderDetailPageState createState() {
+    return _OrderDetailPageState();
+  }
+}
+
+class _OrderDetailPageState extends State<OrderDetailPage> {
+  int qty = 1;
+  int price = 18000;
+  int totalPrice = 0;
+  int totalPayment = 0;
+  int discontPrice = 2000;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
       appBar: AppBar(title: const Text('Details page')),
-      body: ListView(
+      body: Stack(
         children: <Widget>[
           Container(
-            color: Colors.black38,
-            height: 250,
-            child: Padding(
-              padding: const EdgeInsets.all(70.0),
-              child: Image.asset(
-                'assets/placeholder_image.png',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Title',
-                  // TODO(shihaohong): Remove this once Flutter stable adopts the modern
-                  // Material text style nomenclature.
-                  // ignore: deprecated_member_use
-                  style: Theme.of(context).textTheme.headline.copyWith(
-                    color: Colors.black54,
-                    fontSize: 30.0,
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(color: Colors.grey, blurRadius: 4)
+                          ],
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 150,
+                                  height: 150,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: widget.imgProduct != null
+                                        ? CachedNetworkImage(
+                                      imageUrl: widget.imgProduct,
+                                      placeholder: (context, url) =>
+                                          Container(
+                                            color: Colors.black26,
+                                            child: SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                          ),
+                                    )
+                                        : Container(
+                                        color: Colors.black26,
+                                        child: SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: <Widget>[
+                                        Text(
+                                          widget.productName,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 21),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          "RP20.000",
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration.lineThrough),
+                                        ),
+                                        Text(
+                                          "RP 18.000",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 19,
+                                              color:
+                                              Theme
+                                                  .of(context)
+                                                  .primaryColor),
+                                        ),
+                                        Expanded(
+                                          child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: qtyButton(
+                                                      context, Icons.add, () {
+                                                    setState(() {
+                                                      qty++;
+                                                      totalPrice = price * qty;
+                                                    });
+                                                  }),
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                SizedBox(
+                                                  width: 24,
+                                                  child: Text(
+                                                    "$qty",
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight
+                                                          .w700,
+                                                      fontSize: 17,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Container(
+                                                  child: qtyButton(
+                                                      context,
+                                                      Icons.remove, () {
+                                                    setState(() {
+                                                      qty--;
+                                                      totalPrice = price * qty;
+                                                    });
+                                                  }),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.green[100]),
+                          child: ListTile(
+                            title: Text(
+                              "Get Product for free",
+                              style: TextStyle(
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor),
+                            ),
+                            trailing: MaterialButton(
+                              onPressed: () {},
+                              child: Text(
+                                "Survey",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              height: 40,
+                              color: Theme
+                                  .of(context)
+                                  .primaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  _loremIpsumParagraph,
-                  // TODO(shihaohong): Remove this once Flutter stable adopts the modern
-                  // Material text style nomenclature.
-                  // ignore: deprecated_member_use
-                  style: Theme.of(context).textTheme.body1.copyWith(
-                    color: Colors.black54,
-                    height: 1.5,
-                    fontSize: 16.0,
+                Material(
+                  color: Colors.white,
+                  elevation: 2,
+                  child: Container(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            "Payment Detail",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Colors.black12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Price"),
+                              Text(
+                                "RP $totalPrice",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16, right: 16, bottom: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Discount"),
+                              Text(
+                                "-$discontPrice",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Colors.black12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Total Payment",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Rp ${totalPrice - discontPrice}",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SafeArea(
+                            child: Container(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width,
+                                child: MaterialButton(
+                                  onPressed: () {},
+                                  shape: RoundedRectangleBorder(),
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
+                                  height: 42,
+                                  child: Text(
+                                    "Beli",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )))
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  InkWell qtyButton(BuildContext context, IconData icon,
+      GestureTapCallback onTapButton) {
+    return InkWell(
+      onTap: onTapButton,
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+            boxShadow: [BoxShadow(blurRadius: 2, color: Colors.grey)]),
+        child: Icon(
+          icon,
+          color: Theme
+              .of(context)
+              .primaryColor,
+        ),
       ),
     );
   }

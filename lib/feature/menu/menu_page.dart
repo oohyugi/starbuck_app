@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
+import 'package:starbuck_app/feature/detail.dart';
 import 'package:starbuck_app/feature/store/store_page.dart';
+import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/model/coffee_mdl.dart';
 import 'package:starbuck_app/widget/custom_tab_indicator.dart';
 
@@ -24,7 +27,7 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   MenuBloc menuBloc = MenuBloc();
   List<MenuItemMdl> listProduct = List();
-  String result = "Green Pramuka";
+  String _textLocation = "Green Pramuka";
 
   @override
   void initState() {
@@ -52,7 +55,7 @@ class _MenuPageState extends State<MenuPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Menu",
+                  "Store",
                   style: Theme
                       .of(context)
                       .textTheme
@@ -60,17 +63,18 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 InkWell(
                   onTap: () async {
-                    result = await Navigator.push(context,
+                    String result = await Navigator.push(context,
                         MaterialPageRoute(builder: (context) => StorePage()));
 
-                    if (result.isNotEmpty) {
+                    if (result != null) {
+                      _textLocation = result;
                       menuBloc.add(FetchAllMenu());
                     }
                   },
                   child: Row(
                     children: <Widget>[
                       Text(
-                        result,
+                        _textLocation,
                         style: TextStyle(
                             fontSize: 14, color: Colors.black87),
                       ),
@@ -281,33 +285,41 @@ class ItemProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var imgUrl = product.assets.thumbnail.large.uri;
-    return ListTile(
-      leading: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: imgUrl != null
-            ? CachedNetworkImage(
-                imageUrl: imgUrl,
-                placeholder: (context, url) => Container(
+    return OpenContainerWrapper(
+      transitionType: ContainerTransitionType.fade,
+      closeContainer: ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: imgUrl != null
+              ? CachedNetworkImage(
+            imageUrl: imgUrl,
+            placeholder: (context, url) =>
+                Container(
                   color: Colors.black26,
                   child: SizedBox(
                     width: 50,
                     height: 50,
                   ),
                 ),
-              )
-            : Container(
-                color: Colors.black26,
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                )),
+          )
+              : Container(
+              color: Colors.black26,
+              child: SizedBox(
+                width: 50,
+                height: 50,
+              )),
+        ),
+        title: Text(
+          product.name,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        subtitle: Text("Rp25.000.000"),
       ),
-      title: Text(
-        product.name,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      ),
-      subtitle: Text("Rp25.000.000"),
+      openContainer: OrderDetailPage(imgProduct: imgUrl,
+        productName: product.name,
+        categoryName: product.formCode,),
+
     );
   }
 }

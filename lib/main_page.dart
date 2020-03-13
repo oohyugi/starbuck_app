@@ -62,6 +62,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     setState(() {
 
       _lastKnownPosition = position;
+
       print(
           "lastknown latitude =${position.latitude} lastknown longitude = ${position.longitude}");
     });

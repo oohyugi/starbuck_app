@@ -35,7 +35,10 @@ class _StorePageState extends State<StorePage> {
     double distanceInMeter = 0;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stores"),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black87),
+        title: Text("Select Outlet", style: TextStyle(color: Colors.black87),),
+        centerTitle: false,
       ),
       body: BlocBuilder(
           bloc: storeBloc,

@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starbuck_app/helper/helper.dart';
@@ -30,7 +29,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   double marginOrdernow = 32;
   Color backroundOrderNow = HexColor("#006241");
   Color textColorOrderNow = Colors.white;
-
+  String outletTerdekat = "Pilih outlet terdekat";
+  String distance = "Unknown";
   onScrollItem() {}
 
   @override
@@ -133,6 +133,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             borderRadiusSizeOrderNow: borderRadiusSizeOrderNow,
             backroundOrderNow: backroundOrderNow,
             textColorOrderNow: textColorOrderNow,
+            outletLocation: outletTerdekat,
+            distance: distance,
           )
         ],
       ),

@@ -2,8 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:starbuck_app/feature/menu/menu_page.dart';
 
-import '../feature/detail.dart';
-
 class OrderNowView extends StatelessWidget {
   const OrderNowView({
     Key key,
@@ -11,7 +9,7 @@ class OrderNowView extends StatelessWidget {
     @required this.marginOrdernow,
     @required this.borderRadiusSizeOrderNow,
     @required this.backroundOrderNow,
-    @required this.textColorOrderNow,
+    @required this.textColorOrderNow, this.outletLocation, this.distance,
   }) : super(key: key);
 
   final double topPos;
@@ -19,6 +17,8 @@ class OrderNowView extends StatelessWidget {
   final double borderRadiusSizeOrderNow;
   final Color backroundOrderNow;
   final Color textColorOrderNow;
+  final String outletLocation;
+  final String distance;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class OrderNowView extends StatelessWidget {
                                       fontWeight: FontWeight.w700,
                                       color: textColorOrderNow),
                                 ),
-                                Text("@Green Pramuka",
+                                Text("Pilih outlet Terdekat",
                                     style: TextStyle(
                                         color: textColorOrderNow, fontSize: 12))
                               ],
@@ -85,7 +85,7 @@ class OrderNowView extends StatelessWidget {
                               color: textColorOrderNow,
                             ),
                             Text(
-                              "4km",
+                              distance,
                               style: TextStyle(
                                   color: textColorOrderNow, fontSize: 12),
                             )
