@@ -57,127 +57,156 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           backgroundColor: Colors.white,
           centerTitle: false,
           iconTheme: IconThemeData(color: Colors.black87)),
-      body: Container(
-        child: Container(
-          child: ListView(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  ProductDetailView(
-                    productName: widget.productName,
-                    imgProduct: widget.imgProduct,
-                    price: price,
-                    onQtyChange: (totalPrice, qty) {
-                      setState(() {
-                        _totalPrice = totalPrice;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Container(
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Select Variant",
-                            style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          InkWell(
-                              onTap: () {
-                                showCustomBottomSheet(
-                                    context: context,
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-                                    child: AdditionalVariantView(
-                                      onSelectVariant: (val) {
-                                        setState(() {
-                                          String list = val.join(", ");
+      body: LayoutBuilder(
 
-                                          _selectedVariant = list;
-                                        });
-                                      },
-                                    ));
-                              },
-                              child: RawChip(
-                                label: Text(
-                                  _selectedVariant,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                backgroundColor: Theme.of(context).accentColor,
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: adsFreeProduct(context),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: InkWell(
-                        onTap: () {
-                          showCustomBottomSheet(
-                              context: context,
-                              height: 300,
-                              child: SelectPayment(
-                                listPayment: {
-                                  0: PaymentData("OVO", "Pay with OVO App",
-                                      "assets/images/ic_ovo.png", false),
-                                  1: PaymentData("Gopay", "Pay with Gopay App",
-                                      "assets/images/ic_gopay.png", false),
-                                },
-                                selectedPos: _selectedPaymentPos,
-                                onPaymentSelected: (data, pos) {
-                                  print(data.name);
-                                  setState(() {
-                                    _paymentSelected = data;
-                                    _selectedPaymentPos = pos;
-                                  });
-                                },
-                              ));
-                        },
+          builder: (context, constraint) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Pay With",
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w700)),
-                            ItemPaymentView(item: _paymentSelected)
+                            ProductDetailView(
+                              productName: widget.productName,
+                              imgProduct: widget.imgProduct,
+                              price: price,
+                              onQtyChange: (totalPrice, qty) {
+                                setState(() {
+                                  _totalPrice = totalPrice;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Container(
+                              color: Colors.white,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Select Variant",
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          showCustomBottomSheet(
+                                              context: context,
+                                              height:
+                                              MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .height / 2,
+                                              child: AdditionalVariantView(
+                                                onSelectVariant: (val) {
+                                                  setState(() {
+                                                    String list = val.join(
+                                                        ", ");
+
+                                                    _selectedVariant = list;
+                                                  });
+                                                },
+                                              ));
+                                        },
+                                        child: RawChip(
+                                          label: Text(
+                                            _selectedVariant,
+                                            style: TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          backgroundColor: Theme
+                                              .of(context)
+                                              .accentColor,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16),
+                              child: adsFreeProduct(context),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: InkWell(
+                                  onTap: () {
+                                    showCustomBottomSheet(
+                                        context: context,
+                                        height: 300,
+                                        child: SelectPayment(
+                                          listPayment: {
+                                            0: PaymentData(
+                                                "OVO", "Pay with OVO App",
+                                                "assets/images/ic_ovo.png",
+                                                false),
+                                            1: PaymentData(
+                                                "Gopay", "Pay with Gopay App",
+                                                "assets/images/ic_gopay.png",
+                                                false),
+                                          },
+                                          selectedPos: _selectedPaymentPos,
+                                          onPaymentSelected: (data, pos) {
+                                            print(data.name);
+                                            setState(() {
+                                              _paymentSelected = data;
+                                              _selectedPaymentPos = pos;
+                                            });
+                                          },
+                                        ));
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                      Text("Pay With",
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w700)),
+                                      ItemPaymentView(item: _paymentSelected)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
                           ],
                         ),
                       ),
-                    ),
+                      RecapPaymentView(
+                          totalPrice: _totalPrice, discontPrice: _discontPrice),
+                    ],
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                ],
+                ),
               ),
-              RecapPaymentView(
-                  totalPrice: _totalPrice, discontPrice: _discontPrice),
-            ],
-          ),
-        ),
+            );
+          }
       ),
     );
   }

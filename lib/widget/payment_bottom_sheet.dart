@@ -46,7 +46,6 @@ void showPaymentBottomSheet({BuildContext context, int totalPayment}) {
                                           fontWeight: FontWeight.w700),
                                     ),
                                     TextField(
-                                      autofocus: true,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                           hintText: "Ex. 081243534534"),
