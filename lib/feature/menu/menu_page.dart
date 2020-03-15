@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
-import 'package:starbuck_app/feature/detail.dart';
+import 'package:starbuck_app/feature/order_detail.dart';
 import 'package:starbuck_app/feature/store/store_page.dart';
 import 'package:starbuck_app/helper/helper.dart';
 import 'package:starbuck_app/model/coffee_mdl.dart';
@@ -286,7 +286,8 @@ class ItemProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     var imgUrl = product.assets.thumbnail.large.uri;
     return OpenContainerWrapper(
-      transitionType: ContainerTransitionType.fade,
+      transitionType: ContainerTransitionType.fadeThrough,
+
       closeContainer: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(10),

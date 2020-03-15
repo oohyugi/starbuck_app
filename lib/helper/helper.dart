@@ -31,6 +31,7 @@ class OpenContainerWrapper extends StatelessWidget {
     return OpenContainer(
       closedElevation: 0,
       transitionType: transitionType,
+
       openBuilder: (BuildContext context, VoidCallback _) {
         return openContainer;
       },
@@ -41,6 +42,9 @@ class OpenContainerWrapper extends StatelessWidget {
   }
 }
 
+dismissKeyboard(BuildContext context) {
+  FocusScope.of(context).requestFocus(new FocusNode());
+}
 double scaleSmallDevice(BuildContext context) {
   final size = MediaQuery.of(context).size;
   // For tiny devices.
